@@ -8,6 +8,10 @@ import { Response } from 'express';
 export class UserService {
     constructor(private readonly userRepository: UserRepository) {}
 
+    async getUserByEmail(email: string): Promise<User | null> {
+        return this.userRepository.findOneByEmail(email);
+    }
+
     async register(registerDto: RegisterDto): Promise<User> {
         return this.userRepository.register(registerDto);
     }

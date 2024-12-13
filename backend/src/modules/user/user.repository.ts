@@ -12,6 +12,10 @@ export class UserRepository {
         private userRepository: Repository<User>
     ) {}
 
+    async findOneByEmail(email: string): Promise<User | null> {
+        return this.userRepository.findOne({ where: { email } });
+    }
+
     async register(registerDto: RegisterDto): Promise<User> {
         const { name, email, password } = registerDto;
 
