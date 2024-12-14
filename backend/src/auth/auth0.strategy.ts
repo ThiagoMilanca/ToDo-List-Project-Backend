@@ -1,7 +1,6 @@
 import { Strategy } from 'passport-auth0';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-//import { Auth0Service } from './auth0.service';  // Crea este servicio si es necesario.
 
 @Injectable()
 export class Auth0Strategy extends PassportStrategy(Strategy) {

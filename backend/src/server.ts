@@ -1,37 +1,20 @@
-import express, { Request, Response, NextFunction } from 'express';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-const app = express();
+async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+    const config = new DocumentBuilder()
+        .setTitle('ToDo List API')
+        .setDescription('This is the API for the ToDo List Project')
+        .setVersion('1.0')
+        .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+    const PORT = process.env.PORT || 3000;
+    await app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
 
-const swaggerOptions = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'ToDo List API',
-            version: '1.0.0',
-            description: 'This is the API for the ToDo List Project',
-        },
-    },
-    apis: ['./src/routes/*.ts'],
-};
-
-const swaggerDocs = swaggerJSDoc(swaggerOptions);
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-app.use(express.json());
-
-app.get('/', (req: Request, res: Response) => {
-    res.send('ToDo List Project');
-});
-
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong :(');
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
-export default app;
+bootstrap();
