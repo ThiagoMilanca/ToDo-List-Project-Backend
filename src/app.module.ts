@@ -20,7 +20,7 @@ import { JwtModule } from '@nestjs/jwt';
         }),
         TypeOrmModule.forFeature([User, Task]),
         JwtModule.register({
-            secret: 'tu_clave_secreta',
+            secret: 'secretKey',
             signOptions: { expiresIn: '1h' },
         }),
         UserModule,
