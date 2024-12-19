@@ -16,7 +16,7 @@ export class Task {
         type: 'boolean',
         default: true,
     })
-    IsActive?: Boolean | true;
+    isActive?: Boolean | true;
 
     @ManyToOne(() => User, (user) => user.tasks, { lazy: true })
     user!: User;

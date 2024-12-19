@@ -9,7 +9,7 @@ export class TaskDto {
 
     @IsOptional()
     @Column({ name: 'IsActive', type: 'boolean', default: true })
-    IsActive?: boolean | true;
+    isActive?: boolean | true;
 }
 
 export class UpdateTaskDto {
@@ -19,5 +19,5 @@ export class UpdateTaskDto {
 
     @IsOptional()
     @Column()
-    IsActive?: boolean;
+    isActive?: boolean;
 }
