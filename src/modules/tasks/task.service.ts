@@ -20,8 +20,8 @@ export class TaskService {
         }
     }
 
-    async getTasks(isActive: boolean): Promise<Task[]> {
-        return this.taskRepository.getAllTasks(isActive);
+    async getTasks(): Promise<Task[]> {
+        return this.taskRepository.getAllTasks();
     }
 
     async getTaskById(id: string): Promise<Task> {
@@ -80,7 +80,7 @@ export class TaskService {
         }
     }
 
-    async deleteTask(id: string): Promise<void> {
+    async deleteTask(id: string): Promise<{ message: string; taskId: string }> {
         try {
             const task = await this.taskRepository.findTaskById(id);
             if (!task) {
@@ -92,6 +92,11 @@ export class TaskService {
             };
 
             await this.updateTask(id, updateTaskDto);
+
+            return {
+                message: `Task with ID ${id} was successfully deleted.`,
+                taskId: id,
+            };
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException('Failed to delete task');

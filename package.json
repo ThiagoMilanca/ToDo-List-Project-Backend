@@ -11,6 +11,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "passport": "^0.7.0",
@@ -23,12 +24,14 @@
   },
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
-    "test": "jest"
+    "test": "jest",
+    "start": ""
   },
   "devDependencies": {
     "@nestjs/testing": "^10.4.15",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",

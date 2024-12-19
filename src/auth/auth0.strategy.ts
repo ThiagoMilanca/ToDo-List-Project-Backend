@@ -12,6 +12,7 @@ export class Auth0Strategy extends PassportStrategy(Strategy) {
                 'UIu4VDDCOn3TTaxPUiKPEKiHYugACPoMCKNfolhkyIha2Jj2Qla7S0gGk1oJP_cC',
             callbackURL: 'http://localhost:3000/',
             scope: 'openid profile email',
+            state: false,
         });
     }
 

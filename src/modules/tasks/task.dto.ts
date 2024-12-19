@@ -7,8 +7,9 @@ export class TaskDto {
     @IsMinWords(3, { message: 'Task must be at least 3 words' })
     task!: string;
 
-    @Column()
-    IsActive!: boolean;
+    @IsOptional()
+    @Column({ name: 'IsActive', type: 'boolean', default: true })
+    IsActive?: boolean | true;
 }
 
 export class UpdateTaskDto {

@@ -18,7 +18,6 @@ export class RegisterDto {
     @ApiProperty()
     email!: string;
 
-    @ApiHideProperty()
     @IsStrongPassword({
         minLength: 8,
         minUppercase: 1,

@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { UserModule } from './modules/user/user.module';
 import { TaskModule } from './modules/tasks/task.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/user.entity';
 import { Task } from './modules/tasks/task.entity';
-import { JwtModule } from '@nestjs/jwt';
+//import { Request, Response, NextFunction } from 'express';
 
 @Module({
     imports: [
@@ -19,10 +19,6 @@ import { JwtModule } from '@nestjs/jwt';
             synchronize: true,
         }),
         TypeOrmModule.forFeature([User, Task]),
-        JwtModule.register({
-            secret: 'secretKey',
-            signOptions: { expiresIn: '1h' },
-        }),
         UserModule,
         TaskModule,
     ],
@@ -30,3 +26,25 @@ import { JwtModule } from '@nestjs/jwt';
     providers: [],
 })
 export class AppModule {}
+
+/* export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply((req: Request, res: Response, next: NextFunction) => {
+                console.log('Middleware ejecutado');
+                console.log('Usuario autenticado:', req.user);
+                if (!req.user) {
+                    console.log('Redirigiendo a login de Auth0');
+                    res.redirect(
+                        'https://dev-x3jfoit7h4aslprv.us.auth0.com/login'
+                    );
+                } else {
+                    console.log(
+                        'Usuario autenticado, continúa al siguiente middleware'
+                    );
+                    next();
+                }
+            })
+            .forRoutes('*'); //esto despues sacalo porque rompe todas las rutas como el guard
+    }
+}*/

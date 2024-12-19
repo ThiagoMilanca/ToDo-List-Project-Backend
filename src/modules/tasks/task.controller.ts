@@ -20,8 +20,8 @@ export class TaskController {
 
     @Get()
     @UseGuards(Auth0Guard)
-    async getAllTasks(@Query('isActive') isActive: boolean): Promise<Task[]> {
-        return this.taskService.getTasks(isActive);
+    async getAllTasks(): Promise<Task[]> {
+        return this.taskService.getTasks();
     }
 
     @Get('user/:userId')
@@ -51,7 +51,9 @@ export class TaskController {
     }
 
     @Delete(':id')
-    async deleteTask(@Param('id') id: string): Promise<void> {
+    async deleteTask(
+        @Param('id') id: string
+    ): Promise<{ message: string; taskId: string }> {
         return this.taskService.deleteTask(id);
     }
 }
