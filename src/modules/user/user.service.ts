@@ -33,7 +33,9 @@ export class UserService {
         return this.userRepository.save(user);
     }
 
-    async login(loginDto: LoginDto): Promise<{ accessToken: string }> {
+    async login(
+        loginDto: LoginDto
+    ): Promise<{ accessToken: string; user: any }> {
         const { email, password } = loginDto;
 
         const user = await this.userRepository.findOneByEmail(email);
@@ -55,7 +57,12 @@ export class UserService {
         const payload = { email: user.email, sub: user.id };
         const accessToken = this.jwtService.sign(payload);
 
-        return { accessToken };
+        const { password: _, ...userWithoutPassword } = user;
+
+        return {
+            accessToken,
+            user: userWithoutPassword,
+        };
     }
 
     logout(response: Response): void {
