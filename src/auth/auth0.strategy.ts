@@ -1,4 +1,4 @@
-import { Strategy } from 'passport-auth0';
+/* import { Strategy } from 'passport-auth0';
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 
@@ -20,3 +20,4 @@ export class Auth0Strategy extends PassportStrategy(Strategy) {
         return { userId: payload.sub, username: payload.name };
     }
 }
+ */

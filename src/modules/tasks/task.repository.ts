@@ -24,7 +24,7 @@ export class TaskRepository {
     async getAllTasks(): Promise<Task[]> {
         try {
             return await this.taskRepository.find({
-                where: { IsActive: true },
+                where: { isActive: true },
             });
         } catch (error) {
             console.error(error);
@@ -72,7 +72,7 @@ export class TaskRepository {
                 throw new Error('Task not found');
             }
 
-            task.IsActive = false;
+            task.isActive = false;
 
             await this.taskRepository.save(task);
         } catch (error) {

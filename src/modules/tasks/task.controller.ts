@@ -12,14 +12,14 @@ import {
     Query,
 } from '@nestjs/common';
 import { TaskDto, UpdateTaskDto } from './task.dto';
-import { Auth0Guard } from '../../auth/auth0.guard';
+//import { Auth0Guard } from '../../auth/auth0.guard';
 
 @Controller('tasks')
 export class TaskController {
     constructor(private readonly taskService: TaskService) {}
 
     @Get()
-    @UseGuards(Auth0Guard)
+    //@UseGuards(Auth0Guard)
     async getAllTasks(): Promise<Task[]> {
         return this.taskService.getTasks();
     }

@@ -4,7 +4,7 @@ import { Response } from 'express';
 import { Controller, Post, Body, UseGuards, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './user.entity';
-import { Auth0Guard } from '../../auth/auth0.guard';
+//import { Auth0Guard } from '../../auth/auth0.guard';
 
 @ApiTags('User')
 @Controller('user')
@@ -12,13 +12,13 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get('/:email')
-    @UseGuards(Auth0Guard)
+    //@UseGuards(Auth0Guard)
     async getUserByEmail(@Param('email') email: string): Promise<User | null> {
         return this.userService.getUserByEmail(email);
     }
 
     @Get('/:id')
-    @UseGuards(Auth0Guard)
+    //@UseGuards(Auth0Guard)
     async getUserById(@Param('id') id: string): Promise<User | null> {
         return this.userService.getUserById(id);
     }
@@ -36,5 +36,11 @@ export class UserController {
     @Post('/logout')
     async logout(@Body() response: Response): Promise<void> {
         return this.userService.logout(response);
+    }
+
+    @Get('/all')
+    async getAllUsers(): Promise<User[]> {
+        console.log('Request received in controller to get all users');
+        return this.userService.getAllUsers();
     }
 }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+/* import { Module } from '@nestjs/common';
 import { Auth0Strategy } from './auth0.strategy';
 import { Auth0Guard } from './auth0.guard';
 import { JwtModule } from '@nestjs/jwt';
@@ -14,3 +14,4 @@ import { JwtModule } from '@nestjs/jwt';
     exports: [JwtModule, Auth0Guard],
 })
 export class AuthModule {}
+ */

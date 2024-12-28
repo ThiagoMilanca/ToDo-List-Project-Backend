@@ -25,4 +25,11 @@ export class UserRepository {
     async save(user: User): Promise<User> {
         return this.userRepository.save(user);
     }
+
+    async getAllUsers(): Promise<User[]> {
+        console.log('Querying the database for all users...');
+        const users = await this.userRepository.find();
+        console.log('Users found in the database:', users);
+        return users;
+    }
 }

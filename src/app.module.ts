@@ -17,6 +17,7 @@ import { Task } from './modules/tasks/task.entity';
             database: 'ToDoList',
             entities: [User, Task],
             synchronize: true,
+            logging: ['error'],
         }),
         TypeOrmModule.forFeature([User, Task]),
         UserModule,

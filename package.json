@@ -25,7 +25,7 @@
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "test": "jest",
-    "start": ""
+    "start": "ts-node src/server.ts"
   },
   "devDependencies": {
     "@nestjs/testing": "^10.4.15",

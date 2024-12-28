@@ -48,7 +48,7 @@ export class TaskService {
     ): Promise<Task[]> {
         try {
             const tasks = await this.taskRepository.findTasksByUserId(userId);
-            return tasks.filter((task) => task.IsActive === isActive);
+            return tasks.filter((task) => task.isActive === isActive);
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException(
@@ -88,7 +88,7 @@ export class TaskService {
             }
 
             const updateTaskDto: UpdateTaskDto = {
-                IsActive: false,
+                isActive: false,
             };
 
             await this.updateTask(id, updateTaskDto);

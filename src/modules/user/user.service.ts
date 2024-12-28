@@ -55,6 +55,7 @@ export class UserService {
         }
 
         const payload = { email: user.email, sub: user.id };
+        console.log('JWT Config:', this.jwtService);
         const accessToken = this.jwtService.sign(payload);
 
         const { password: _, ...userWithoutPassword } = user;
@@ -77,5 +78,20 @@ export class UserService {
 
     getUserById(id: string): Promise<User | null> {
         return this.userRepository.findOneById(id);
+    }
+
+    async getAllUsers(): Promise<User[]> {
+        console.log('Fetching users in service...');
+        const users = await this.userRepository.getAllUsers();
+
+        if (!users) {
+            throw new HttpException(
+                'Failed to retrieve users list',
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+
+        console.log('Users retrieved successfully:', users);
+        return users;
     }
 }
