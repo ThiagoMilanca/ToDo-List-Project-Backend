@@ -55,7 +55,6 @@ export class UserService {
         }
 
         const payload = { email: user.email, sub: user.id };
-        console.log('JWT Config:', this.jwtService);
         const accessToken = this.jwtService.sign(payload);
 
         const { password: _, ...userWithoutPassword } = user;
@@ -67,9 +66,10 @@ export class UserService {
     }
 
     logout(response: Response): void {
-        response.clearCookie('accessToken', { httpOnly: true, secure: true });
+        response.clearCookie('accessToken', { httpOnly: true, secure: false });
         console.log('User has logged out');
-        response.send({ message: 'Logged out successfully' });
+
+        response.status(200).json({ message: 'Logged out successfully' });
     }
 
     getUserByEmail(email: string): Promise<User | null> {

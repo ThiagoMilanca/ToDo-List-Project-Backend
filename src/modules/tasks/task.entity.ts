@@ -18,6 +18,6 @@ export class Task {
     })
     isActive?: Boolean | true;
 
-    @ManyToOne(() => User, (user) => user.tasks, { lazy: true })
+    @ManyToOne(() => User, (user) => user.tasks)
     user!: User;
 }

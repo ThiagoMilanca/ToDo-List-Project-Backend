@@ -1,7 +1,15 @@
 import { UserService } from './user.service';
 import { RegisterDto, LoginDto } from './user.dto';
 import { Response } from 'express';
-import { Controller, Post, Body, UseGuards, Get, Param } from '@nestjs/common';
+import {
+    Controller,
+    Post,
+    Body,
+    Get,
+    Param,
+    NotFoundException,
+    Res,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './user.entity';
 //import { Auth0Guard } from '../../auth/auth0.guard';
@@ -11,8 +19,8 @@ import { User } from './user.entity';
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @Get('/:email')
-    //@UseGuards(Auth0Guard)
+    @Get('/email/:email')
+    //@UseGuards(Auth0Guard)s
     async getUserByEmail(@Param('email') email: string): Promise<User | null> {
         return this.userService.getUserByEmail(email);
     }
@@ -20,7 +28,11 @@ export class UserController {
     @Get('/:id')
     //@UseGuards(Auth0Guard)
     async getUserById(@Param('id') id: string): Promise<User | null> {
-        return this.userService.getUserById(id);
+        const user = await this.userService.getUserById(id);
+        if (!user) {
+            throw new NotFoundException(`User with id ${id} not found`);
+        }
+        return user;
     }
 
     @Post('/register')
@@ -34,7 +46,7 @@ export class UserController {
     }
 
     @Post('/logout')
-    async logout(@Body() response: Response): Promise<void> {
+    async logout(@Res() response: Response): Promise<void> {
         return this.userService.logout(response);
     }
 

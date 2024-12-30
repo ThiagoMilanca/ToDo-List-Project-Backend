@@ -10,9 +10,15 @@ import {
     Delete,
     UseGuards,
     Query,
+    Req,
 } from '@nestjs/common';
 import { TaskDto, UpdateTaskDto } from './task.dto';
+import { JwtAuthGuard } from '../../jwt/jwt.guard';
 //import { Auth0Guard } from '../../auth/auth0.guard';
+
+interface CustomRequest extends Request {
+    user: { id: string };
+}
 
 @Controller('tasks')
 export class TaskController {
@@ -24,12 +30,9 @@ export class TaskController {
         return this.taskService.getTasks();
     }
 
-    @Get('user/:userId')
-    async findTasksByUserId(
-        @Param('userId') userId: string,
-        @Query('isActive') isActive: boolean
-    ): Promise<Task[]> {
-        return this.taskService.findTasksByUserId(userId, isActive);
+    @Get(':userId')
+    async findTasksByUserId(@Param('userId') userId: string): Promise<Task[]> {
+        return this.taskService.findTasksByUserId(userId);
     }
 
     @Get(':id')
@@ -38,8 +41,15 @@ export class TaskController {
     }
 
     @Post()
-    async createTask(@Body() taskDto: TaskDto): Promise<Task> {
-        return this.taskService.createTask(taskDto);
+    @UseGuards(JwtAuthGuard)
+    async createTask(@Body() taskDto: TaskDto, @Req() req: any) {
+        const { userId } = req.user;
+
+        if (!userId) {
+            throw new Error('User ID is required');
+        }
+
+        return this.taskService.createTask(taskDto, userId);
     }
 
     @Put(':id')

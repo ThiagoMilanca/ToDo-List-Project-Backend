@@ -1,30 +1,51 @@
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Task } from './task.entity';
 import { TaskDto, UpdateTaskDto } from './task.dto';
-import { NotFoundException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import {
+    NotFoundException,
+    Injectable,
+    InternalServerErrorException,
+} from '@nestjs/common';
+import { User } from 'modules/user/user.entity';
 
 @Injectable()
-export class TaskRepository {
-    constructor(
-        @InjectRepository(Task)
-        private readonly taskRepository: Repository<Task>
-    ) {}
+export class TaskRepository extends Repository<Task> {
+    constructor(private dataSource: DataSource) {
+        super(Task, dataSource.createEntityManager());
+    }
 
-    async createTask(taskDto: TaskDto): Promise<Task> {
-        const task = this.taskRepository.create(taskDto);
+    async createTask(taskDto: TaskDto, user: User): Promise<Task> {
+        const task = this.create({
+            ...taskDto,
+            user,
+        });
+
         try {
-            return await this.taskRepository.save(task);
+            const savedTask = await this.save(task);
+
+            const foundTask = await this.findOne({
+                where: { id: savedTask.id },
+                relations: ['user'],
+            });
+
+            if (!foundTask) {
+                throw new NotFoundException(
+                    `Task with ID ${savedTask.id} not found after creation`
+                );
+            }
+
+            return foundTask;
         } catch (error) {
             console.error(error);
-            throw new Error('Failed to create task');
+            throw new InternalServerErrorException('Failed to create task');
         }
     }
 
     async getAllTasks(): Promise<Task[]> {
         try {
-            return await this.taskRepository.find({
+            return await this.find({
                 where: { isActive: true },
+                relations: ['user'],
             });
         } catch (error) {
             console.error(error);
@@ -34,7 +55,7 @@ export class TaskRepository {
 
     async findTaskById(id: string): Promise<Task | null> {
         try {
-            return await this.taskRepository.findOne({ where: { id } });
+            return await this.findOne({ where: { id }, relations: ['user'] });
         } catch (error) {
             console.error(error);
             throw new Error('Failed to retrieve task by ID');
@@ -43,8 +64,11 @@ export class TaskRepository {
 
     async findTasksByUserId(userId: string): Promise<Task[]> {
         try {
-            return await this.taskRepository.find({
-                where: { user: { id: userId } },
+            return await this.find({
+                where: {
+                    user: { id: userId },
+                    isActive: true,
+                },
             });
         } catch (error) {
             console.error(error);
@@ -58,7 +82,7 @@ export class TaskRepository {
             if (!task) {
                 throw new NotFoundException(`Task with ID ${id} not found`);
             }
-            await this.taskRepository.update(id, updateTaskDto);
+            await this.update(id, updateTaskDto);
         } catch (error) {
             console.error(error);
             throw new Error('Failed to update task');
@@ -67,14 +91,14 @@ export class TaskRepository {
 
     async deleteTask(id: string): Promise<void> {
         try {
-            const task = await this.taskRepository.findOne({ where: { id } });
+            const task = await this.findOne({ where: { id } });
             if (!task) {
                 throw new Error('Task not found');
             }
 
             task.isActive = false;
 
-            await this.taskRepository.save(task);
+            await this.save(task);
         } catch (error) {
             console.error(error);
             throw new Error('Failed to delete task');

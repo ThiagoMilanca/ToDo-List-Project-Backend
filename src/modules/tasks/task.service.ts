@@ -6,18 +6,23 @@ import {
 import { Task } from './task.entity';
 import { TaskDto, UpdateTaskDto } from './task.dto';
 import { TaskRepository } from './task.repository';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class TaskService {
-    constructor(private readonly taskRepository: TaskRepository) {}
+    constructor(
+        private readonly taskRepository: TaskRepository,
+        private readonly userRepository: UserRepository
+    ) {}
 
-    async createTask(taskDto: TaskDto): Promise<Task> {
-        try {
-            return await this.taskRepository.createTask(taskDto);
-        } catch (error) {
-            console.error(error);
-            throw new InternalServerErrorException('Failed to create task');
+    async createTask(taskDto: TaskDto, userId: string): Promise<Task> {
+        const user = await this.userRepository.findOneById(userId);
+
+        if (!user) {
+            throw new NotFoundException(`User with ID ${userId} not found`);
         }
+
+        return this.taskRepository.createTask(taskDto, user);
     }
 
     async getTasks(): Promise<Task[]> {
@@ -42,13 +47,9 @@ export class TaskService {
         }
     }
 
-    async findTasksByUserId(
-        userId: string,
-        isActive: boolean
-    ): Promise<Task[]> {
+    async findTasksByUserId(userId: string): Promise<Task[]> {
         try {
-            const tasks = await this.taskRepository.findTasksByUserId(userId);
-            return tasks.filter((task) => task.isActive === isActive);
+            return await this.taskRepository.findTasksByUserId(userId);
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException(

@@ -12,14 +12,20 @@ export class UserRepository {
 
     async findOneByEmail(email: string): Promise<User | null> {
         return this.userRepository
-            .findOneOrFail({ where: { email } })
+            .findOneOrFail({ where: { email }, relations: ['tasks'] })
             .catch(() => null);
     }
 
     async findOneById(id: string): Promise<User | null> {
-        return this.userRepository
-            .findOneOrFail({ where: { id } })
-            .catch(() => null);
+        try {
+            return await this.userRepository.findOneOrFail({
+                where: { id },
+                relations: ['tasks'],
+            });
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
 
     async save(user: User): Promise<User> {
