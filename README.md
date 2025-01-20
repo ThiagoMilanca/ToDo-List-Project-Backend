@@ -91,15 +91,15 @@ npm test
 
 ## 🤝 Contributing
 
--Fork the repository.
--Create a new branch (git checkout -b feature-branch).
--Make your changes and commit (git commit -am 'Add new feature').
--Push to your branch (git push origin feature-branch).
--Create a pull request.
+-   Fork the repository.
+-   Create a new branch (git checkout -b feature-branch).
+-   Make your changes and commit (git commit -am 'Add new feature').
+-   Push to your branch (git push origin feature-branch).
+-   Create a pull request.
 
 ## 👨‍💻 Author
 
 Thiago Milanca
 
-GitHub: https://github.com/ThiagoMilanca
-LinkedIn: https://www.linkedin.com/in/thiago-milanca/
+-   GitHub: https://github.com/ThiagoMilanca
+-   LinkedIn: https://www.linkedin.com/in/thiago-milanca/
