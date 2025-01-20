@@ -69,6 +69,9 @@ export class TaskRepository extends Repository<Task> {
                     user: { id: userId },
                     isActive: true,
                 },
+                relations: {
+                    user: true,
+                },
             });
         } catch (error) {
             console.error(error);
