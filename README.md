@@ -28,28 +28,32 @@ Before you begin, ensure that you have the following installed on your machine:
 
 1. Clone the repository and navigate to the project directory:
 
-````bash
+```bash
 git clone https://github.com/ThiagoMilanca/ToDo-List-Project-Backend.git
 cd ToDo-List-Project-Backend
+```
 
 2. Install the required dependencies:
 
 ```bash
 npm install
+```
 
- ## 🔧 Configuration
+## 🔧 Configuration
 
- Create a .env file at the root of the project with the following configuration:
+Create a .env file at the root of the project with the following configuration:
 
-  PORT=3000
-  MONGODB_URI=mongodb://localhost:27017/todo-list
-  JWT_SECRET=your_secret_key
+```bash
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/todo-list
+JWT_SECRET=your_secret_key
+```
 
 Explanation:
 
-- PORT: The port where the server will run.
-- MONGODB_URI: MongoDB connection URL.
-- JWT_SECRET: Secret key for JWT authentication.
+-   PORT: The port where the server will run.
+-   MONGODB_URI: MongoDB connection URL.
+-   JWT_SECRET: Secret key for JWT authentication.
 
 ## 🚀 Running the Server
 
@@ -57,30 +61,31 @@ To start the server in development mode with nodemon:
 
 ```bash
 npm run dev
+```
 
 To run in production:
 
 ```bash
 npm start
+```
 
 The API will be available at: http://localhost:3000
 
 ## 📡 Available Endpoints
 
---------------------------------------------------------------
-|    Method     |    Endpoint    |        Description        |
---------------------------------------------------------------
-|      GET      |     /tasks     |📥 Get all tasks           |
---------------------------------------------------------------
-|      GET      |   /tasks/:id   |🔍 Get a specific task     |
---------------------------------------------------------------
-|      POST     |     /tasks     |✍️ Create a new task       |
---------------------------------------------------------------
-|      PUT      |   /tasks/:id   |✏️ Update a specific task  |
---------------------------------------------------------------
-|    DELETE     |   /tasks/:id   |🗑️ Delete a specific task  |
---------------------------------------------------------------
+---
 
+## | Method | Endpoint | Description |
+
+## | GET | /tasks |📥 Get all tasks |
+
+## | GET | /tasks/:id |🔍 Get a specific task |
+
+## | POST | /tasks |✍️ Create a new task |
+
+## | PUT | /tasks/:id |✏️ Update a specific task |
+
+## | DELETE | /tasks/:id |🗑️ Delete a specific task |
 
 ## 🧪 Tests
 
@@ -88,19 +93,19 @@ To run the tests for this project, make sure to have Mocha and Chai installed, t
 
 ```bash
 npm test
+```
 
 ## 🤝 Contributing
 
- -Fork the repository.
- -Create a new branch (git checkout -b feature-branch).
- -Make your changes and commit (git commit -am 'Add new feature').
- -Push to your branch (git push origin feature-branch).
- -Create a pull request.
+-Fork the repository.
+-Create a new branch (git checkout -b feature-branch).
+-Make your changes and commit (git commit -am 'Add new feature').
+-Push to your branch (git push origin feature-branch).
+-Create a pull request.
 
- ## 👨‍💻 Author
+## 👨‍💻 Author
 
- Thiago Milanca
+Thiago Milanca
 
 GitHub: https://github.com/ThiagoMilanca
 LinkedIn: https://www.linkedin.com/in/thiago-milanca/
-````
